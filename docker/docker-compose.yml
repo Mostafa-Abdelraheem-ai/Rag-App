@@ -1,19 +1,27 @@
+version: "3.8"
+
 services:
   mongodb:
     image: mongo:7-jammy
-    
     container_name: mongodb
-    
+
     ports:
       - "27007:27017"
-    
+
     volumes:
-      - ./mongodb:/data/db
-    
+      - mongodata:/data/db
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+    restart: always  # Ensures the container restarts only if it crashes, not when exit code is handled
+
     networks:
       - backend
-    
-    restart: always
 
 networks:
   backend:
+
+volumes:
+  mongodata:
