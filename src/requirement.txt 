@@ -1,0 +1,7 @@
+fastapi[standard]==0.115.0
+python-dotenv==1.0.0
+pydantic-settings==2.2.1
+python-multipart==0.0.9
+aiofiles==23.2.1
+langchain==0.1.16
+PyMuPDF==1.23.21
