@@ -34,6 +34,10 @@ class ProcessController(BaseController):
         if file_ext == ProcessingEnum.PDF.value:
             return PyMuPDFLoader(file_path)
         
+        if file_ext == ProcessingEnum.JSON.value:
+            # Assuming JSON files are structured in a way that can be loaded as text
+            return TextLoader(file_path, encoding="utf-8")
+        
         return None
 
     def get_file_content(self, file_id: str):
