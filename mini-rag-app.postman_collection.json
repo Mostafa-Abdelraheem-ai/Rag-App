@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "547eacce-d863-4eca-b31e-3bed9823d91c",
+		"name": "mini-rag-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36197911",
+		"_collection_link": "https://hankaresha.postman.co/workspace/hankaresha-Workspace~87ff4d0c-5d77-488a-8b3a-8affeefebcbd/collection/36197911-547eacce-d863-4eca-b31e-3bed9823d91c?action=share&source=collection_link&creator=36197911"
+	},
+	"item": [
+		{
+			"name": "welcome-request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/api/v1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/mostafaabdelraheem/Desktop/Rag-App/Test.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{api}}/api/v1/data/upload/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"upload",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "process",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/api/v1/data/process/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"process",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nlp-index-push",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"do_rest\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/api/v1/nlp/index/push/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"nlp",
+						"index",
+						"push",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nlp-index-info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api}}/api/v1/nlp/index/info/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"nlp",
+						"index",
+						"info",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nlp-index-search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"What are the key features?\",\n    \"limit\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/api/v1/nlp/index/search/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"nlp",
+						"index",
+						"search",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "nlp-index-answer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"What is the refund policy?\",\n    \"limit\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api}}/api/v1/nlp/index/answer/1",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"nlp",
+						"index",
+						"answer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ngrok",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"What is the refund policy?\",\n    \"limit\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://endless-maggot-current.ngrok-free.app/api/v1/nlp/index/answer/1",
+					"protocol": "https",
+					"host": [
+						"endless-maggot-current",
+						"ngrok-free",
+						"app"
+					],
+					"path": [
+						"api",
+						"v1",
+						"nlp",
+						"index",
+						"answer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
