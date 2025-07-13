@@ -1,2 +1,2 @@
 mongodb
-.env
+docker/env/.env.app
