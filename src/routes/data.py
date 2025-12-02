@@ -12,8 +12,6 @@ from models.ChunkModel import ChunkModel
 from models.AssetModel import AssetModel
 from models.db_schemes import DataChunk, Asset
 from models.enums.AssetTypeEnum import AssetTypeEnum
-import json
-
 
 logger = logging.getLogger('uvicorn.error')
 
@@ -25,20 +23,27 @@ data_router = APIRouter(
 @data_router.post("/upload/{project_id}")
 async def upload_data(request: Request, project_id: str, file: UploadFile,
                       app_settings: Settings = Depends(get_settings)):
-
+        
+    
     project_model = await ProjectModel.create_instance(
         db_client=request.app.db_client
     )
-    project = await project_model.get_project_or_create_one(project_id=project_id)
+
+    project = await project_model.get_project_or_create_one(
+        project_id=project_id
+    )
 
     # validate the file properties
     data_controller = DataController()
+
     is_valid, result_signal = data_controller.validate_uploaded_file(file=file)
 
     if not is_valid:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content={"signal": result_signal}
+            content={
+                "signal": result_signal
+            }
         )
 
     project_dir_path = ProjectController().get_project_path(project_id=project_id)
@@ -52,51 +57,36 @@ async def upload_data(request: Request, project_id: str, file: UploadFile,
             while chunk := await file.read(app_settings.FILE_DEFAULT_CHUNK_SIZE):
                 await f.write(chunk)
     except Exception as e:
+
         logger.error(f"Error while uploading file: {e}")
+
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content={"signal": ResponseSignal.FILE_UPLOAD_FAILED.value}
+            content={
+                "signal": ResponseSignal.FILE_UPLOAD_FAILED.value
+            }
         )
 
-    # === JSON to TXT conversion (only for product.json files) ===
-    if file.filename.endswith(".json") and "product" in file.filename.lower():
-        async def convert_json_to_text(input_path: str, output_path: str):
-            async with aiofiles.open(input_path, "r", encoding="utf-8") as f:
-                raw_content = await f.read()
-                data = json.loads(raw_content)
+    # store the assets into the database
+    asset_model = await AssetModel.create_instance(
+        db_client=request.app.db_client
+    )
 
-            blocks = []
-            for item in data:
-                block = f"Product Name: {item.get('name')}\n"
-                block += f"Description: {item.get('description')}\n"
-                block += f"Price: ${item.get('unit_price')}\n"
-                block += f"In Stock: {item.get('units_in_stock')} units\n"
-                blocks.append(block.strip())
-
-            text = "\n\n".join(blocks)
-
-            async with aiofiles.open(output_path, "w", encoding="utf-8") as out:
-                await out.write(text)
-
-        txt_output_path = file_path.replace(".json", ".txt")
-        await convert_json_to_text(file_path, txt_output_path)
-
-    # store the uploaded asset record in the database
-    asset_model = await AssetModel.create_instance(db_client=request.app.db_client)
     asset_resource = Asset(
         asset_project_id=project.id,
         asset_type=AssetTypeEnum.FILE.value,
         asset_name=file_id,
         asset_size=os.path.getsize(file_path)
     )
+
     asset_record = await asset_model.create_asset(asset=asset_resource)
 
     return JSONResponse(
-        content={
-            "signal": ResponseSignal.FILE_UPLOAD_SUCCESS.value,
-            "file_id": str(asset_record.id),
-        }
-    )
+            content={
+                "signal": ResponseSignal.FILE_UPLOAD_SUCCESS.value,
+                "file_id": str(asset_record.id),
+            }
+        )
 
 @data_router.post("/process/{project_id}")
 async def process_endpoint(request: Request, project_id: str, process_request: ProcessRequest):

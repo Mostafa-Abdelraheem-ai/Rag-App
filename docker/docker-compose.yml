@@ -1,66 +1,26 @@
-
 services:
-
-  # FastAPI Application
-  fastapi:
-    build:
-      context: ..
-      dockerfile: docker/minirag/Dockerfile
-    container_name: fastapi
-    ports:
-      - "8000:8000"
-    volumes:
-      - fastapi_data:/app/assets
-    networks:
-      - backend
-    restart: always
-    depends_on:
-      - qdrant #:
-        # condition: service_healthy
-    env_file:
-      - ./env/.env.app
-
-  # Qdrant (VectorDB)
-  qdrant:
-    image: qdrant/qdrant:v1.13.6
-    container_name: qdrant
-    ports:
-      - "6333:6333"
-      - "6334:6334"
-    volumes:
-      - qdrant_data:/qdrant/storage
-    networks:
-      - backend
-    restart: always
-    # healthcheck:
-    #   test: ["CMD", "wget", "--spider", "-q", "http://localhost:6333/health"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 10
-
   mongodb:
     image: mongo:7-jammy
+    
     container_name: mongodb
-
+    
     ports:
       - "27007:27017"
-
+    
     volumes:
       - mongodata:/data/db
 
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-
-    restart: always  # Ensures the container restarts only if it crashes, not when exit code is handled
-
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    
     networks:
       - backend
+    
+    restart: always
 
 networks:
   backend:
 
 volumes:
-  fastapi_data:
   mongodata:
-  qdrant_data:
