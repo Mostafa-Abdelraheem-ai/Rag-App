@@ -15,4 +15,7 @@ SQLAlchemy==2.0.36
 asyncpg==0.30.0
 alembic==1.14.0
 psycopg2==2.0.10 #if you have issues with this  installing this package, try installing with conda 
-greenlet==3.3.0
+greenlet==3.3.0 #if you are using macOS sillicon chip, you might need this package
+pgvector==0.4.2
+nltk==3.9.2
+ 
