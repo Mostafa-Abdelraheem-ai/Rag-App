@@ -6,16 +6,23 @@ pydantic-settings==2.2.1
 aiofiles==23.2.1
 langchain==0.1.20
 PyMuPDF==1.24.3
-motor==3.4.0
+motor==3.5.2
 pydantic-mongo==2.3.0
-openai==2.9.0
+openai==1.75.0
 cohere==5.5.8
 qdrant-client==1.10.1
 SQLAlchemy==2.0.36
 asyncpg==0.30.0
 alembic==1.14.0
-psycopg2==2.0.10 #if you have issues with this  installing this package, try installing with conda 
+psycopg2-binary>=2.9.10 #if you have issues with this  installing this package, try installing with conda 
 greenlet==3.3.0 #if you are using macOS sillicon chip, you might need this package
 pgvector==0.4.2
 nltk==3.9.2
+
+# Mointring and Metrics
+prometheus-client==0.22.0
+starlette_exporter==0.22.0
+
+# Helth Checks
+fastapi-health==0.3.0
  
