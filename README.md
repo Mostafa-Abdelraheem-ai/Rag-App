@@ -1,63 +1,66 @@
-## Requirements
+# Rag App
 
-- Python 3.8 or later
+A lightweight Retrieval-Augmented Generation (RAG) application for question answering, built as a compact learning project with a FastAPI backend and Docker support.
 
-#### Install Python using MiniConda
+## Overview
 
-1) Download and install MiniConda from [here](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
-2) Create a new environment using the following command:
-```bash
-$ conda create -n mini-rag python=3.8
-```
-3) Activate the environment:
-```bash
-$ conda activate mini-rag-app
-```
+This repository is designed to demonstrate the essential pieces of a small RAG system in a simpler, easier-to-follow codebase. It combines configuration, backend serving, and local container orchestration in one repository so the project can be run locally and extended over time.
 
-### (Optional) Setup you command line interface for better readability
+## What The Project Covers
 
-```bash
-export PS1="\[\033[01;32m\]\u@\h:\w\n\[\033[00m\]\$ "
-```
+- RAG-oriented application structure
+- FastAPI-based backend serving
+- local environment configuration
+- Docker Compose support for local services
+- Postman-friendly API testing workflow
 
-## Installation
+## Repository Layout
 
-### Install the required packages
-
-```bash
-$ pip install -r requirements.txt
+```text
+.
+├── docker/
+├── src/
+│   ├── .env.example
+│   ├── main.py
+│   └── requirements.txt
+└── README.md
 ```
 
-### Setup the environment variables
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- Docker and Docker Compose for the containerized workflow
+
+### Local Setup
 
 ```bash
-$ cp .env.example .env
+cp src/.env.example src/.env
+pip install -r src/requirements.txt
+cd src
+uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
 
-Set your environment variables in the `.env` file. Like `OPENAI_API_KEY` value.
-
-## Run Docker Compose Services
+### Docker Setup
 
 ```bash
-$ cd docker
-$ cp .env.example .env
+cd docker
+cp .env.example .env
+docker compose up -d
 ```
 
-- update `.env` with your credentials
+## Why This Repository Is Useful
 
+This project works well as:
 
+- a small-scale RAG learning project
+- a base for experimenting with retrieval-backed APIs
+- a stepping stone toward more production-ready RAG systems
 
-```bash
-$ cd docker
-$ sudo docker compose up -d
-```
+## Next Improvements
 
-## Run the FastAPI server
-
-```bash
-$ uvicorn main:app --reload --host 0.0.0.0 --port 5000
-```
-
-## POSTMAN Collection
-
-Download the POSTMAN collection from [/assets/mini-rag-app.postman_collection.json](/assets/mini-rag-app.postman_collection.json)
+- document the retrieval and generation flow more clearly
+- add example API requests and outputs
+- explain the data source and indexing process
+- include architecture notes and screenshots
